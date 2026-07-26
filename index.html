@@ -7,59 +7,51 @@
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
- .heart { position: fixed; top: -10vh; color: #ff0040; animation: fall linear infinite; z-index: 9999; }
+.heart { position: fixed; top: -10vh; color: #ff0040; animation: fall linear infinite; z-index: 9999; }
   @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-  #welcome { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #0a0a0a, #1a0000, #000); text-align: center; padding: 20px; }
-  #welcome h1 { font-size: 3.2em; color: #ff0040; text-shadow: 0 0 25px #ff0040; animation: dropIn 1.5s ease; }
-  #welcome h2 { font-size: 1.6em; color: #ff6680; margin-top: 15px; animation: dropIn 1.5s ease 0.5s both; }
-  #passwordBox { margin-top: 30px; animation: dropIn 1.5s ease 1s both; }
-  #passwordBox input { padding: 14px 25px; border-radius: 30px; border: 2px solid #ff0040; background: #1a0000; color: #fff; font-size: 1.2em; text-align: center; outline: none; }
-  #passwordBox button { margin-top: 20px; padding: 14px 40px; background: linear-gradient(90deg, #ff0040, #990026); border: none; border-radius: 30px; color: white; font-size: 1.2em; font-weight: bold; cursor: pointer; box-shadow: 0 0 25px #ff0040; }
-  @keyframes dropIn { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-  #main { display: none; padding: 20px; max-width: 900px; margin: auto; }
- .names { text-align: center; font-size: 2.8em; color: #ff0040; text-shadow: 0 0 20px #ff0040; animation: fadeInDown 1.5s ease; margin: 20px 0; }
+  #main { padding: 20px; max-width: 900px; margin: auto; }
+.names { text-align: center; font-size: 2.8em; color: #ff0040; text-shadow: 0 0 20px #ff0040; animation: fadeInDown 1.5s ease; margin: 20px 0; }
   @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
- .album { position: relative; width: 100%; height: 450px; border-radius: 20px; overflow: hidden; border: 3px solid #ff0040; box-shadow: 0 0 40px rgba(255,0,64,0.6); margin: 20px 0; }
- .album img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
- .album img.active { opacity: 1; }
- .love-text { text-align: center; color: #ff6680; font-size: 1.4em; margin: 20px 0; text-shadow: 0 0 10px #ff0040; }
+.album { position: relative; width: 100%; height: 450px; border-radius: 20px; overflow: hidden; border: 3px solid #ff0040; box-shadow: 0 0 40px rgba(255,0,64,0.6); margin: 20px 0; }
+.album img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
+.album img.active { opacity: 1; }
+.love-text { text-align: center; color: #ff6680; font-size: 1.4em; margin: 20px 0; text-shadow: 0 0 10px #ff0040; animation: glow 2s infinite; }
+  @keyframes glow { 0%,100%{text-shadow:0 0 10px #ff0040;} 50%{text-shadow:0 0 20px #ff0040;} }
   textarea { width:100%; height:100px; background:#1a0000; border:2px solid #ff0040; color:#fff; border-radius:10px; padding:10px; font-size:1em; }
- .chat-container,.call-container { background: rgba(20,0,0,0.8); border: 2px solid #ff0040; border-radius: 20px; padding: 20px; margin-top: 30px; }
+.chat-container,.call-container { background: rgba(20,0,0,0.8); border: 2px solid #ff0040; border-radius: 20px; padding: 20px; margin-top: 30px; box-shadow: 0 0 30px rgba(255,0,64,0.3); }
   #messages { height: 300px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 15px; }
- .message { background: linear-gradient(90deg, #ff0040, #990026); padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; }
- .input-area { display: flex; gap: 10px; margin-top: 10px; }
-  #messageInput { flex:1; padding:12px 20px; border-radius:25px; border:2px solid #ff0040; background:#1a0000; color:#fff; }
- .btn { padding:12px 25px; border-radius:25px; border:none; background:linear-gradient(90deg,#ff0040,#cc0033); color:white; font-weight:bold; cursor:pointer; }
- .call-btn { width: 100%; padding: 15px; margin-top: 10px; background: #00ff80; color: #000; font-size: 1.1em; }
+.message { background: linear-gradient(90deg, #ff0040, #990026); padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; word-wrap: break-word; }
+.input-area { display: flex; gap: 10px; margin-top: 10px; }
+  #messageInput { flex:1; padding:12px 20px; border-radius:25px; border:2px solid #ff0040; background:#1a0000; color:#fff; outline: none; }
+.btn { padding:12px 25px; border-radius:25px; border:none; background:linear-gradient(90deg,#ff0040,#cc0033); color:white; font-weight:bold; cursor:pointer; transition: 0.3s; }
+.btn:hover { transform: scale(1.05); }
+.call-btn { width: 100%; padding: 15px; margin-top: 10px; background: #00ff80; color: #000; font-size: 1.1em; }
 </style>
 </head>
 <body>
 
 <div id="hearts"></div>
 
-<!-- Welcome Screen -->
-<div id="welcome">
-  <h1>Himansa & Sanu ✨</h1>
-  <h2>Welcome To My Love ❤️</h2>
-  <div id="passwordBox">
-    <input type="text" id="pwd" placeholder="08.22 ටයිප් කරන්න">
-    <br>
-    <button onclick="checkPassword()">ඇතුලට යන්න 💘</button>
-  </div>
-</div>
-
-<!-- Main Site -->
+<!-- Main Site Direct -->
 <div id="main">
   <div class="names">Himansa & Sanu ✨</div>
+
+  <!-- Photo Album -->
   <div class="album" id="album"></div>
   <input type="file" id="photoUpload" accept="image/*" multiple style="display:none">
   <button class="btn" onclick="document.getElementById('photoUpload').click()">📸 Gallery එකෙන් Photo Add කරන්න</button>
+
   <p class="love-text">හැමදාම මාත් එක්ක ඉන්න. මන් ඔයාට ගොඩක් ආදරෙයි මගෙ චූටි ❤️</p>
+
   <textarea id="desc" placeholder="ඔයාට කැමති description එකක් මෙතන ලියන්න..."></textarea>
+
+  <!-- Call Room -->
   <div class="call-container">
     <h2 style="color:#ff6680; text-align:center;">Voice & Video Call 📞</h2>
     <button class="call-btn" onclick="window.open('https://ourlove.daily.co/chart', '_blank')">Call Room එකට Join වෙන්න</button>
   </div>
+
+  <!-- Chat -->
   <div class="chat-container">
     <h2 style="color:#ff6680;">Our Chat 💌</h2>
     <div id="messages">Loading...</div>
@@ -85,38 +77,27 @@ function createHeart() {
 }
 setInterval(createHeart, 200);
 
-// 2. Password Check - 08.22 FIXED
-function checkPassword() {
-  const pwd = document.getElementById('pwd').value.trim();
-  console.log("ඔයා ගැහුවේ:", pwd); // debug
-  if(pwd === '08.22') {
-    document.getElementById('welcome').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
-  } else {
-    alert('වැරදියි බන් 😢 ඔයා ගැහුවේ "'+pwd+'". හරියට "08.22" ගහන්න');
-    document.getElementById('pwd').value = '';
-  }
-}
-document.getElementById('pwd').addEventListener("keyup", function(event) {
-  if (event.key === "Enter") { checkPassword(); }
-});
-
-// 3. Gallery + Slideshow
+// 2. Gallery Upload + LocalStorage + Slideshow
 const album = document.getElementById('album');
 const upload = document.getElementById('photoUpload');
 let currentImg = 0;
 let slideInterval;
+
 window.onload = () => {
   const savedPhotos = JSON.parse(localStorage.getItem('myLovePhotos')) || ["https://i.imgur.com/8Km9tLL.jpg"];
   savedPhotos.forEach(src => addPhotoToAlbum(src));
-  startSlideshow(); loadMessages(); loadDesc();
+  startSlideshow();
+  loadMessages();
+  loadDesc();
 }
+
 function addPhotoToAlbum(src) {
   const img = document.createElement('img');
   img.src = src;
   if(album.children.length === 0) img.classList.add('active');
   album.appendChild(img);
 }
+
 upload.addEventListener('change', (e) => {
   const files = e.target.files;
   let savedPhotos = JSON.parse(localStorage.getItem('myLovePhotos')) || [];
@@ -132,6 +113,7 @@ upload.addEventListener('change', (e) => {
     reader.readAsDataURL(file);
   }
 })
+
 function startSlideshow() {
   clearInterval(slideInterval);
   const imgs = document.querySelectorAll('.album img');
@@ -143,14 +125,17 @@ function startSlideshow() {
   }, 4000);
 }
 
-// 4. Description + Chat
+// 3. Description Save
 const desc = document.getElementById('desc');
 desc.oninput = () => localStorage.setItem('myLoveDesc', desc.value);
 function loadDesc() { desc.value = localStorage.getItem('myLoveDesc') || ''; }
+
+// 4. Supabase Chat
 const SUPABASE_URL = 'https://rqugwdvkmzptqjngqjxk.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWd3ZHZr
 bXpwdHFqbmdxanhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MzUwNDUsImV4cCI6MjA3NjAxMTA0NX0.0Xk9a6k2H3qQm4wQ5pR6sT7uV8wX9yZ0aB1cD2eF3g'
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
 async function loadMessages() {
   const { data } = await supabase.from('messages').select('*').order('created_at', { ascending: true })
   const messagesDiv = document.getElementById('messages')
