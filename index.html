@@ -6,19 +6,64 @@
 <title>Himansa & Sanu ❤️</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
-.heart { position: fixed; top: -10vh; color: #ff0040; animation: fall linear infinite; z-index: 9999; }
+  body { font-family: 'Poppins', 'Segoe UI', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+
+  /* Falling Hearts - හැමතැනම */
+.heart {
+    position: fixed; top: -10vh; color: #ff0040; animation: fall linear infinite; z-index: 9999;
+    pointer-events: none;
+  }
   @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-  #main { padding: 20px; max-width: 900px; margin: auto; }
-.names { text-align: center; font-size: 2.8em; color: #ff0040; text-shadow: 0 0 20px #ff0040; animation: fadeInDown 1.5s ease; margin: 20px 0; }
+
+  /* Welcome Screen */
+  #welcome {
+    height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #0a0a0a, #1a0000, #000); text-align: center; padding: 20px;
+  }
+  #welcome h1 {
+    font-size: 3.5em; color: #ff0040; text-shadow: 0 0 25px #ff0040; animation: dropIn 1.5s ease;
+  }
+  #welcome h2 {
+    font-size: 1.8em; color: #ff6680; margin-top: 15px; animation: dropIn 1.5s ease 0.5s both;
+  }
+  #welcome p { margin-top: 40px; color: #aaa; font-size: 1em; animation: dropIn 1.5s ease 1s both; }
+  @keyframes dropIn { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Main Content */
+  #main { display: none; padding: 20px; max-width: 900px; margin: auto; position: relative; z-index: 10; }
+.names {
+    text-align: center; font-size: 2.8em; color: #ff0040; text-shadow: 0 0 20px #ff0040;
+    animation: fadeInDown 1.5s ease; margin: 20px 0;
+  }
   @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-.album { position: relative; width: 100%; height: 450px; border-radius: 20px; overflow: hidden; border: 3px solid #ff0040; box-shadow: 0 0 40px rgba(255,0,64,0.6); margin: 20px 0; }
-.album img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
+
+  /* Photo Album */
+.album {
+    position: relative; width: 100%; height: 450px; border-radius: 20px; overflow: hidden;
+    border: 3px solid #ff0040; box-shadow: 0 0 40px rgba(255,0,64,0.6); margin: 20px 0;
+  }
+.album img {
+    position: absolute; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 1.5s ease-in-out;
+  }
 .album img.active { opacity: 1; }
-.love-text { text-align: center; color: #ff6680; font-size: 1.4em; margin: 20px 0; text-shadow: 0 0 10px #ff0040; animation: glow 2s infinite; }
+
+.love-text {
+    text-align: center; color: #ff6680; font-size: 1.4em; margin: 20px 0;
+    text-shadow: 0 0 10px #ff0040; animation: glow 2s infinite;
+  }
   @keyframes glow { 0%,100%{text-shadow:0 0 10px #ff0040;} 50%{text-shadow:0 0 20px #ff0040;} }
-  textarea { width:100%; height:100px; background:#1a0000; border:2px solid #ff0040; color:#fff; border-radius:10px; padding:10px; font-size:1em; }
-.chat-container,.call-container { background: rgba(20,0,0,0.8); border: 2px solid #ff0040; border-radius: 20px; padding: 20px; margin-top: 30px; box-shadow: 0 0 30px rgba(255,0,64,0.3); }
+
+  textarea {
+    width:100%; height:100px; background:#1a0000; border:2px solid #ff0040; color:#fff;
+    border-radius:10px; padding:10px; font-size:1em; outline: none;
+  }
+
+  /* Chat + Call */
+.chat-container,.call-container {
+    background: rgba(20,0,0,0.8); border: 2px solid #ff0040; border-radius: 20px;
+    padding: 20px; margin-top: 30px; box-shadow: 0 0 30px rgba(255,0,64,0.3);
+  }
   #messages { height: 300px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 15px; }
 .message { background: linear-gradient(90deg, #ff0040, #990026); padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; word-wrap: break-word; }
 .input-area { display: flex; gap: 10px; margin-top: 10px; }
@@ -32,7 +77,14 @@
 
 <div id="hearts"></div>
 
-<!-- Main Site Direct -->
+<!-- Welcome Screen -->
+<div id="welcome">
+  <h1>Himansa & Sanu ✨</h1>
+  <h2>Welcome To My Love ❤️</h2>
+  <p>ඇතුලට යන්න Enter ඔබන්න 💘</p>
+</div>
+
+<!-- Main Site -->
 <div id="main">
   <div class="names">Himansa & Sanu ✨</div>
 
@@ -64,7 +116,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// 1. Falling Hearts
+// 1. Falling Hearts - Welcome + Main දෙකෙදිම වැඩ
 function createHeart() {
   const heart = document.createElement('div');
   heart.classList.add('heart');
@@ -77,7 +129,18 @@ function createHeart() {
 }
 setInterval(createHeart, 200);
 
-// 2. Gallery Upload + LocalStorage + Slideshow
+// 2. Enter ගැහුවම ඇතුලට
+function enterSite() {
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('main').style.display = 'block';
+}
+document.addEventListener("keyup", function(event) {
+  if (event.key === "Enter" && document.getElementById('welcome').style.display!== 'none') {
+    enterSite();
+  }
+});
+
+// 3. Gallery Upload + LocalStorage + Slideshow
 const album = document.getElementById('album');
 const upload = document.getElementById('photoUpload');
 let currentImg = 0;
@@ -125,12 +188,12 @@ function startSlideshow() {
   }, 4000);
 }
 
-// 3. Description Save
+// 4. Description Save
 const desc = document.getElementById('desc');
 desc.oninput = () => localStorage.setItem('myLoveDesc', desc.value);
 function loadDesc() { desc.value = localStorage.getItem('myLoveDesc') || ''; }
 
-// 4. Supabase Chat
+// 5. Supabase Chat
 const SUPABASE_URL = 'https://rqugwdvkmzptqjngqjxk.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWd3ZHZr
 bXpwdHFqbmdxanhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MzUwNDUsImV4cCI6MjA3NjAxMTA0NX0.0Xk9a6k2H3qQm4wQ5pR6sT7uV8wX9yZ0aB1cD2eF3g'
