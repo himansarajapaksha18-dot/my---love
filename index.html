@@ -1,49 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MY LOVE ❤️</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-body{font-family:sans-serif;background:linear-gradient(135deg,#ff9a9e,#fecfef);margin:0;padding:20px;text-align:center;color:#fff}
-h1{font-size:2.5em;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
-.chat-box{max-width:500px;margin:20px auto;background:rgba(255,255,255,0.2);border-radius:15px;padding:20px}
-input,button{padding:10px;border-radius:8px;border:none;margin:5px;width:80%}
-button{background:#ff6b9d;color:white;cursor:pointer;font-weight:bold}
-#messages{height:250px;overflow-y:auto;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;margin:10px 0;text-align:left}
-.msg{margin:5px 0;padding:8px;background:rgba(255,255,255,0.3);border-radius:8px}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* Falling Hearts */
+ .heart {
+    position: fixed;
+    top: -10vh;
+    color: #ff0040;
+    animation: fall linear infinite;
+    z-index: 9999;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Welcome Screen */
+  #welcome {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0a0a0a, #1a0000, #000);
+    text-align: center;
+  }
+  #welcome h1 {
+    font-size: 3em;
+    color: #ff0040;
+    text-shadow: 0 0 20px #ff0040;
+    animation: fadeInUp 2s ease;
+  }
+  #welcome button {
+    margin-top: 30px;
+    padding: 15px 40px;
+    background: linear-gradient(90deg, #ff0040, #990026);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 0 0 20px #ff0040;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Main Content */
+  #main { display: none; padding: 20px; max-width: 900px; margin: auto; }
+
+ .names {
+    text-align: center;
+    font-size: 2.5em;
+    color: #ff0040;
+    text-shadow: 0 0 15px #ff0040;
+    animation: pulse 2s infinite;
+    margin: 20px 0;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+
+  /* Photo Album */
+ .album {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 3px solid #ff0040;
+    box-shadow: 0 0 30px rgba(255,0,64,0.5);
+    margin: 20px 0;
+  }
+ .album img {
+    position: absolute;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+ .album img.active { opacity: 1; }
+
+ .love-text {
+    text-align: center;
+    color: #ff6680;
+    font-size: 1.3em;
+    margin: 20px 0;
+    text-shadow: 0 0 10px #ff0040;
+  }
+
+  /* Chat Box */
+ .chat-container {
+    background: rgba(20,0,0,0.8);
+    border: 2px solid #ff0040;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 0 30px rgba(255,0,64,0.3);
+  }
+  #messages { height: 300px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 15px; }
+ .message { background: linear-gradient(90deg, #ff0040, #990026); padding: 10px; border-radius: 15px; margin-bottom: 10px; }
+ .input-area { display: flex; gap: 10px; margin-top: 10px; }
+  #messageInput { flex:1; padding:12px; border-radius:25px; border:2px solid #ff0040; background:#1a0000; color:#fff; }
+  button { padding:12px 25px; border-radius:25px; border:none; background:linear-gradient(90deg,#ff0040,#cc0033); color:white; font-weight:bold; cursor:pointer; }
+
+  /* Call Buttons */
+ .call-btns { display: flex; gap: 15px; justify-content: center; margin: 20px 0; }
+ .call-btn { padding: 15px 30px; background: #00ff80; border: none; border-radius: 30px; color: #000; font-weight: bold; cursor: pointer; }
 </style>
 </head>
 <body>
-<h1>MY LOVE ❤️</h1>
-<p>For Himansara & You</p>
 
-<div class="chat-box">
-  <h3>Our Chat</h3>
-  <div id="messages">Loading...</div>
-  <input id="msg" placeholder="Type a message...">
-  <button onclick="sendMsg()">Send</button>
+<!-- Falling Hearts JS will add them -->
+<div id="hearts"></div>
+
+<!-- Welcome Screen -->
+<div id="welcome">
+  <h1>Welcome To My Love ❤️</h1>
+  <button onclick="enterSite()">08-22 ඇතුලට යන්න 💘</button>
 </div>
 
+<!-- Main Site -->
+<div id="main">
+  <h1 style="text-align:center; color:#ff0040;">MY LOVE</h1>
+  <div class="names">Himansa & Sanu ✨</div>
+
+  <!-- Photo Album -->
+  <div class="album" id="album">
+    <!-- ඔයාගේ photos වල link දාන්න -->
+    <img src="https://i.imgur.com/1.jpg" class="active">
+    <img src="https://i.imgur.com/2.jpg">
+    <img src="https://i.imgur.com/3.jpg">
+  </div>
+
+  <p class="love-text">හැමදාම මාත් එක්ක ඉන්න. මන් ඔයාට ගොඩක් ආදරෙයි මගෙ චූටි ❤️</p>
+
+  <textarea placeholder="Description එකක් මෙතන ලියන්න..." style="width:100%; height:80px; background:#1a0000; border:2px solid #ff0040; color:#fff; border-radius:10px; padding:10px;"></textarea>
+
+  <div class="call-btns">
+    <button class="call-btn">📞 Voice Call</button>
+    <button class="call-btn" style="background:#0080ff; color:#fff;">📹 Video Call</button>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-container">
+    <h2 style="color:#ff6680;">Our Chat 💌</h2>
+    <div id="messages">Loading...</div>
+    <div class="input-area">
+      <input type="text" id="messageInput" placeholder="Type a message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL = 'https://omovlihgmlulclnfhqwy.supabase.co'
-const SUPABASE_ANON_KEY = 'sb_publishable_DfUZN5U3hU35UPFfX9_TRA_An_MB'
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+// 1. Falling Hearts
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML = '❤️';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+  heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+  document.getElementById('hearts').appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
 
-async function sendMsg(){
-  const msg = document.getElementById('msg').value
-  if(!msg) return
-  await supabase.from('messages').insert([{text: msg}])
-  document.getElementById('msg').value = ''
-  loadMsgs()
+// 2. Enter Site
+function enterSite() {
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('main').style.display = 'block';
 }
 
-async function loadMsgs(){
-  const { data } = await supabase.from('messages').select('*').order('created_at', {ascending: true})
-  document.getElementById('messages').innerHTML = data.map(m=>`<div class="msg">${m.text}</div>`).join('')
+// 3. Photo Slideshow
+let currentImg = 0;
+const imgs = document.querySelectorAll('.album img');
+setInterval(() => {
+  imgs[currentImg].classList.remove('active');
+  currentImg = (currentImg + 1) % imgs.length;
+  imgs[currentImg].classList.add('active');
+}, 3000);
+
+// 4. Supabase Chat
+const SUPABASE_URL = 'https://rqugwdvkmzptqjngqjxk.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxdWd3ZHZr
+bXpwdHFqbmdxanhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MzUwNDUsImV4cCI6MjA3NjAxMTA0NX0.0Xk9a6k2H3qQm4wQ5pR6sT7uV8wX9yZ0aB1cD2eF3g'
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+async function loadMessages() {
+  const { data } = await supabase.from('messages').select('*').order('created_at', { ascending: true })
+  const messagesDiv = document.getElementById('messages')
+  messagesDiv.innerHTML = ''
+  data.forEach(msg => {
+    messagesDiv.innerHTML += `<div class="message"><b>${msg.sender}:</b> ${msg.content}</div>`
+  })
+  messagesDiv.scrollTop = messagesDiv.scrollHeight
 }
-loadMsgs()
+async function sendMessage() {
+  const input = document.getElementById('messageInput')
+  if (!input.value.trim()) return
+  await supabase.from('messages').insert([{ sender: 'You', content: input.value }])
+  input.value = ''; loadMessages()
+}
+loadMessages()
+setInterval(loadMessages, 3000)
 </script>
 </body>
 </html>
