@@ -4,65 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MY LOVE ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-body { background: black; color: white; font-family: Arial; text-align: center; }
-.red { color: red; }
-input, button { padding: 10px; margin: 5px; border-radius: 8px; border: 1px solid red; background: #111; color: white; }
-button { background: red; cursor: pointer; }
-#chatBox { height: 300px; overflow-y: scroll; border: 1px solid red; padding: 10px; margin: 10px; }
-.heart { position: fixed; font-size: 20px; color: red; animation: fall 3s linear infinite; }
-@keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
+body{font-family:sans-serif;background:linear-gradient(135deg,#ff9a9e,#fecfef);margin:0;padding:20px;text-align:center;color:#fff}
+h1{font-size:2.5em;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+.chat-box{max-width:500px;margin:20px auto;background:rgba(255,255,255,0.2);border-radius:15px;padding:20px}
+input,button{padding:10px;border-radius:8px;border:none;margin:5px;width:80%}
+button{background:#ff6b9d;color:white;cursor:pointer;font-weight:bold}
+#messages{height:250px;overflow-y:auto;background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;margin:10px 0;text-align:left}
+.msg{margin:5px 0;padding:8px;background:rgba(255,255,255,0.3);border-radius:8px}
 </style>
 </head>
 <body>
-<div id="login">
-  <h1 class="red">MY LOVE</h1>
-  <input type="password" id="pass" placeholder="Enter 08-22">
-  <button onclick="login()">Login</button>
-</div>
+<h1>MY LOVE ❤️</h1>
+<p>For Himansara & You</p>
 
-<div id="app" style="display:none">
-  <h1 class="red">❤️ For Us ❤️</h1>
-  <div id="chatBox"></div>
-  <input id="msg" placeholder="Type message">
+<div class="chat-box">
+  <h3>Our Chat</h3>
+  <div id="messages">Loading...</div>
+  <input id="msg" placeholder="Type a message...">
   <button onclick="sendMsg()">Send</button>
-  <br><br>
-  <input type="file" id="photo">
-  <button onclick="uploadPhoto()">Upload Photo</button>
-  <div id="gallery"></div>
 </div>
 
 <script>
-// 1. LOGIN CHECK
-function login(){
-  if(document.getElementById('pass').value == '08-22'){
-    document.getElementById('login').style.display='none';
-    document.getElementById('app').style.display='block';
-    checkDates();
-    setInterval(createHeart, 500);
-  } else alert('Wrong password');
+const SUPABASE_URL = 'https://omovlihgmlulclnfhqwy.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_DfUZN5U3hU35UPFfX9_TRA_An_MB'
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+async function sendMsg(){
+  const msg = document.getElementById('msg').value
+  if(!msg) return
+  await supabase.from('messages').insert([{text: msg}])
+  document.getElementById('msg').value = ''
+  loadMsgs()
 }
 
-// 2. BIRTHDAY + ANNIVERSARY POPUP
-function checkDates(){
-  const today = new Date();
-  if(today.getMonth()+1 == 8 && today.getDate() == 11) alert('Happy Birthday ❤️ 08-11');
-  if(today.getMonth()+1 == 8 && today.getDate() == 22) alert('Happy Anniversary ❤️ 08-22');
+async function loadMsgs(){
+  const { data } = await supabase.from('messages').select('*').order('created_at', {ascending: true})
+  document.getElementById('messages').innerHTML = data.map(m=>`<div class="msg">${m.text}</div>`).join('')
 }
-
-// 3. HEARTS
-function createHeart(){
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.innerHTML = '❤️';
-  heart.style.left = Math.random()*100 + 'vw';
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(), 3000);
-}
-
-// 4. මෙතනට Supabase code එක පස්සේ දාමු - Chat + Photo
-function sendMsg(){ alert('Supabase connect කරාට පස්සේ වැඩ') }
-function uploadPhoto(){ alert('Supabase connect කරාට පස්සේ වැඩ') }
+loadMsgs()
 </script>
 </body>
 </html>
